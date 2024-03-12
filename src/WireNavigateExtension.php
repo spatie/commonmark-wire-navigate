@@ -15,7 +15,7 @@ use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 use Spatie\Url\Url;
 
-class WireNavigateExtension implements ExtensionInterface, NodeRendererInterface, ConfigurationAwareInterface
+class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInterface, NodeRendererInterface
 {
     protected Closure $shouldWireNavigate;
 
