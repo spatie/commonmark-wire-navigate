@@ -7,7 +7,7 @@ use Spatie\Url\Url;
 
 class ShouldWireNavigate
 {
-    public static function from(string|null $baseUrl, Closure|array|null $resolver): callable
+    public static function from(?string $baseUrl, Closure|array|null $resolver): callable
     {
         $baseUrl = Url::fromString($baseUrl ?? '');
 
