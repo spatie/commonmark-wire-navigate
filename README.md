@@ -4,7 +4,7 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/spatie/commonmark-wire-navigate/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/spatie/commonmark-wire-navigate/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/commonmark-wire-navigate.svg?style=flat-square)](https://packagist.org/packages/spatie/commonmark-wire-navigate)
 
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
+An extension for [league/commonmark](https://github.com/thephpleague/commonmark) to add a `wire:navigate` attribute to links rendered in Markdown and enable [SPA mode](https://livewire.laravel.com/docs/navigate) in Livewire.
 
 ## Support us
 
@@ -24,9 +24,76 @@ composer require spatie/commonmark-wire-navigate
 
 ## Usage
 
+Register `CommonMarkWireNavigate` as a CommonMark extension.
+
 ```php
-$skeleton = new Spatie\CommonMarkWireNavigate();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\MarkdownConverter;
+use Spatie\CommonMarkWireNavigate\WireNavigateExtension;
+
+$environment = new Environment();
+
+$environment->addExtension(new WireNavigateExtension());
+
+$converter = new MarkdownConverter($environment);
+echo $converter->convert('[About](/about)');
+// <p><a href="/about" wire:navigate>About</a></p>
+```
+
+For more information on CommonMark extensions and environments, refer to the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
+
+### Choosing which links to add `wire:navigate` to
+
+By default, the extension will add `wire:navigate` to all internal links. To know which link is internal, you must specify your application's base URL.
+
+```php
+$environment->addExtension(new WireNavigateExtension(
+    baseUrl: 'https://example.app',
+));
+
+$converter = new MarkdownConverter($environment);
+echo $converter->convert('[About](/about) - [Twitter](https://twitter.com/spatie_be)');
+// <p><a href="/about" wire:navigate>About</a> - <a href="https://twitter.com/spatie_be">Twitter</a></p>
+```
+
+Additionally, you can configure whether the attribute will be added using an array of patterns or a callback.
+
+Using patterns:
+
+```php
+$environment->addExtension(new WireNavigateExtension(
+    baseUrl: 'https://example.app',
+    enabled: ['/docs/*'],
+));
+```
+
+Using a callback:
+
+```php
+$environment->addExtension(new WireNavigateExtension(
+    baseUrl: 'https://example.app',
+    enabled: fn (string $url) => preg_match('/\/docs\//', $url),
+    hover: true, 
+));
+```
+
+### Prefetching pages on hover
+
+If you want to have Livewire prefetch pages when a link is hovered, enable the `hover` option.
+
+```php
+$environment->addExtension(new WireNavigateExtension(
+    baseUrl: 'https://example.app',
+    enabled: ['/docs/*'],
+    hover: true, 
+));
+```
+
+Now the extension will add `wire:navigate.hover` to links instead.
+
+```php
+echo $converter->convert('[About](/about)');
+// <p><a href="/about" wire:navigate.hover>About</a></p>
 ```
 
 ## Testing
@@ -49,7 +116,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [sebastiandedeyne](https://github.com/sebastiandedeyne)
+- [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
 ## License

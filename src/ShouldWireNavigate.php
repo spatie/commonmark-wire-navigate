@@ -7,17 +7,39 @@ use Spatie\Url\Url;
 
 class ShouldWireNavigate
 {
-    public static function from(Closure|array|null $resolver): callable
+    public static function from(string|null $baseUrl, Closure|array|null $resolver): callable
     {
-        if (is_null($resolver)) {
-            return fn () => true;
-        }
+        $baseUrl = Url::fromString($baseUrl ?? '');
 
-        if (is_callable($resolver)) {
-            return $resolver;
-        }
+        return function (string $url) use ($baseUrl, $resolver) {
+            $url = Url::fromString($url);
 
-        return function (Url $url) {
+            // Ensure hosts match
+            if ($url->getHost()) {
+                if (strtolower($url->getHost()) !== strtolower($baseUrl->getHost())) {
+                    return false;
+                }
+            }
+
+            // Ensure base paths match
+            if (! str_starts_with(strtolower($url->getPath()), strtolower($baseUrl->getPath()))) {
+                return false;
+            }
+
+            if (is_null($resolver)) {
+                return true;
+            }
+
+            if (is_callable($resolver)) {
+                return $resolver((string) $url);
+            }
+
+            if (is_array($resolver)) {
+                foreach ($resolver as $path) {
+                    // @todo
+                }
+            }
+
             return false;
         };
     }

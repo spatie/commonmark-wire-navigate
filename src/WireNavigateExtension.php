@@ -13,7 +13,6 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
-use Spatie\Url\Url;
 
 class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInterface, NodeRendererInterface
 {
@@ -24,10 +23,11 @@ class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInt
     protected ConfigurationInterface $configuration;
 
     public function __construct(
-        Closure|array|null $shouldWireNavigate = null,
+        string $baseUrl = '',
+        Closure|array|null $enabled = null,
         bool $hover = false,
     ) {
-        $this->shouldWireNavigate = ShouldWireNavigate::from($shouldWireNavigate);
+        $this->shouldWireNavigate = ShouldWireNavigate::from($baseUrl, $enabled);
         $this->attribute = $hover ? 'wire:navigate.hover' : 'wire:navigate';
     }
 
@@ -42,9 +42,7 @@ class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInt
             throw new Exception('Unsupported node');
         }
 
-        $url = Url::fromString($node->getUrl());
-
-        if (($this->shouldWireNavigate)($url)) {
+        if (($this->shouldWireNavigate)($node->getUrl())) {
             $node->data->set(
                 'attributes',
                 array_merge($node->data->get('attributes'), [
