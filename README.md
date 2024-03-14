@@ -57,6 +57,9 @@ $converter = new MarkdownConverter($environment);
 echo $converter->convert('[About](/about)');
 // <p><a href="/about" wire:navigate>About</a>
 
+echo $converter->convert('[About](https://example.app/about)');
+// <p><a href="https://example.app/about" wire:navigate>About</a>
+
 echo $converter->convert('[Twitter](https://twitter.com/spatie_be)');
 // <a href="https://twitter.com/spatie_be">Twitter</a></p>
 ```
