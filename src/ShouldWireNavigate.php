@@ -8,16 +8,14 @@ use Spatie\Url\Url;
 class ShouldWireNavigate
 {
     public static function make(
-        string $baseUrl = '',
-        Closure|array|null $resolver = null,
+        string $domain = '',
+        array|null $paths = null,
     ): callable {
-        if ($baseUrl && ! preg_match('/^https?:\/\//', $baseUrl)) {
-            $baseUrl = 'https://'.$baseUrl;
-        }
+        $baseUrl = $domain
+            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://' . $domain))
+            : Url::create();
 
-        $baseUrl = Url::fromString($baseUrl);
-
-        return function (string $url) use ($baseUrl, $resolver) {
+        return function (string $url) use ($baseUrl, $paths) {
             $url = Url::fromString($url);
 
             // Ensure hosts match
@@ -32,16 +30,12 @@ class ShouldWireNavigate
                 return false;
             }
 
-            if (is_null($resolver)) {
+            if (is_null($paths)) {
                 return true;
             }
 
-            if (is_callable($resolver)) {
-                return $resolver((string) $url);
-            }
-
-            if (is_array($resolver)) {
-                foreach ($resolver as $path) {
+            if (is_array($paths)) {
+                foreach ($paths as $path) {
                     if (str_starts_with(trim($url->getPath(), '/'), trim($path, '/'))) {
                         return true;
                     }

@@ -12,8 +12,8 @@ it('is enabled on links on the same domain or without a domain when no base URL 
     expect($shouldWireNavigate('https://example.app/about'))->toBe(false);
 });
 
-it('is enabled on links on the same domain or without a domain when a base URL is provided', function (string $baseUrl) {
-    $shouldWireNavigate = ShouldWireNavigate::make($baseUrl);
+it('is enabled on links on the same domain or without a domain when a base URL is provided', function (string $domain) {
+    $shouldWireNavigate = ShouldWireNavigate::make($domain);
 
     expect($shouldWireNavigate('/'))->toBe(true);
     expect($shouldWireNavigate('/about'))->toBe(true);
@@ -31,11 +31,4 @@ it('is enabled on links matching a path when an array of paths are provided', fu
     expect($shouldWireNavigate('/'))->toBe(false);
     expect($shouldWireNavigate('/docs'))->toBe(true);
     expect($shouldWireNavigate('/docs/installation'))->toBe(true);
-});
-
-it('accepts a closure for custom logic', function () {
-    $shouldWireNavigate = ShouldWireNavigate::make('', fn (string $url) => $url === '/about');
-
-    expect($shouldWireNavigate('/about'))->toBe(true);
-    expect($shouldWireNavigate('/contact'))->toBe(false);
 });

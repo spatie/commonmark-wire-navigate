@@ -7,29 +7,22 @@ use Exception;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\CommonMark\Renderer\Inline\LinkRenderer;
-use League\CommonMark\Extension\ExtensionInterface;
+use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationBuilderInterface;
 use League\Config\ConfigurationInterface;
+use Nette\Schema\Expect;
 
-class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInterface, NodeRendererInterface
+class WireNavigateExtension implements ConfigurationAwareInterface, ConfigurableExtensionInterface, NodeRendererInterface
 {
     protected Closure $shouldWireNavigate;
 
     protected string $attribute;
 
     protected ConfigurationInterface $configuration;
-
-    public function __construct(
-        string $baseUrl = '',
-        Closure|array|null $enabled = null,
-        bool $hover = false,
-    ) {
-        $this->shouldWireNavigate = ShouldWireNavigate::make($baseUrl, $enabled);
-        $this->attribute = $hover ? 'wire:navigate.hover' : 'wire:navigate';
-    }
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
@@ -41,6 +34,15 @@ class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInt
         if (! $node instanceof Link) {
             throw new Exception('Unsupported node');
         }
+
+        $this->shouldWireNavigate ??= ShouldWireNavigate::make(
+            domain: $this->configuration->get('wire_navigate/domain'),
+            paths: $this->configuration->get('wire_navigate/paths'),
+        );
+
+        $this->attribute ??= $this->configuration->get('wire_navigate/hover')
+            ? 'wire:navigate.hover'
+            : 'wire:navigate';
 
         if (($this->shouldWireNavigate)($node->getUrl())) {
             $node->data->set(
@@ -60,5 +62,14 @@ class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInt
     public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->configuration = $configuration;
+    }
+
+    public function configureSchema(ConfigurationBuilderInterface $builder): void
+    {
+        $builder->addSchema('wire_navigate', Expect::structure([
+            'domain' => Expect::string(''),
+            'paths' => Expect::anyOf(Expect::null(), Expect::arrayOf(Expect::string()))->default(null),
+            'hover' => Expect::bool(false),
+        ]));
     }
 }
