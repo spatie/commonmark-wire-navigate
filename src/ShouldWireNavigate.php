@@ -35,7 +35,7 @@ class ShouldWireNavigate
 
             if (is_array($paths)) {
                 foreach ($paths as $path) {
-                    if (str_starts_with(trim($url->getPath(), '/'), trim($path, '/'))) {
+                    if (str_starts_with(trim($url->getPath(), '/') . '/', trim($path, '/') . '/')) {
                         return true;
                     }
                 }

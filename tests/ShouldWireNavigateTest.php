@@ -29,6 +29,9 @@ it('is enabled on links matching a path when an array of paths are provided', fu
     $shouldWireNavigate = ShouldWireNavigate::make('example.app', ['docs']);
 
     expect($shouldWireNavigate('/'))->toBe(false);
+
     expect($shouldWireNavigate('/docs'))->toBe(true);
     expect($shouldWireNavigate('/docs/installation'))->toBe(true);
+
+    expect($shouldWireNavigate('/docs-and-more'))->toBe(false);
 });
