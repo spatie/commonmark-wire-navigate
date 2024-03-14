@@ -16,7 +16,7 @@ use League\Config\ConfigurationBuilderInterface;
 use League\Config\ConfigurationInterface;
 use Nette\Schema\Expect;
 
-class WireNavigateExtension implements ConfigurationAwareInterface, ConfigurableExtensionInterface, NodeRendererInterface
+class WireNavigateExtension implements ConfigurableExtensionInterface, ConfigurationAwareInterface, NodeRendererInterface
 {
     protected Closure $shouldWireNavigate;
 

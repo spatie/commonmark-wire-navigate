@@ -2,17 +2,16 @@
 
 namespace Spatie\CommonMarkWireNavigate;
 
-use Closure;
 use Spatie\Url\Url;
 
 class ShouldWireNavigate
 {
     public static function make(
         string $domain = '',
-        array|null $paths = null,
+        ?array $paths = null,
     ): callable {
         $baseUrl = $domain
-            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://' . $domain))
+            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://'.$domain))
             : Url::create();
 
         return function (string $url) use ($baseUrl, $paths) {
