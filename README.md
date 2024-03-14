@@ -36,6 +36,7 @@ $environment = new Environment();
 $environment->addExtension(new WireNavigateExtension());
 
 $converter = new MarkdownConverter($environment);
+
 echo $converter->convert('[About](/about)');
 // <p><a href="/about" wire:navigate>About</a></p>
 ```
@@ -52,8 +53,12 @@ $environment->addExtension(new WireNavigateExtension(
 ));
 
 $converter = new MarkdownConverter($environment);
-echo $converter->convert('[About](/about) - [Twitter](https://twitter.com/spatie_be)');
-// <p><a href="/about" wire:navigate>About</a> - <a href="https://twitter.com/spatie_be">Twitter</a></p>
+
+echo $converter->convert('[About](/about)');
+// <p><a href="/about" wire:navigate>About</a>
+
+echo $converter->convert('[Twitter](https://twitter.com/spatie_be)');
+// <a href="https://twitter.com/spatie_be">Twitter</a></p>
 ```
 
 Additionally, you can configure whether the attribute will be added using an array of patterns or a callback.
