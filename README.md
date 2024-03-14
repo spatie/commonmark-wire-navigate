@@ -73,6 +73,14 @@ $environment->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
     enabled: ['/docs/*'],
 ));
+
+$converter = new MarkdownConverter($environment);
+
+echo $converter->convert('[Installation](/docs/installation)');
+// <p><a href="/docs/installation" wire:navigate>Installation</a>
+
+echo $converter->convert('[About](/about)');
+// <p><a href="/about">About</a>
 ```
 
 Using a callback:
@@ -92,7 +100,6 @@ If you want to have Livewire prefetch pages when a link is hovered, enable the `
 ```php
 $environment->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
-    enabled: ['/docs/*'],
     hover: true, 
 ));
 ```
