@@ -38,7 +38,9 @@
     "scripts": {
         "test": "vendor/bin/pest",
             "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse",
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline"
     },
     "config": {
         "sort-packages": true,
