@@ -43,7 +43,7 @@ echo $converter->convert('[About](/about)');
 
 For more information on CommonMark extensions and environments, refer to the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
 
-### Choosing which links to add `wire:navigate` to
+### Choosing which links to enhance
 
 By default, the extension will add `wire:navigate` to all internal links. To know which link is internal, you must specify your application's base URL.
 
