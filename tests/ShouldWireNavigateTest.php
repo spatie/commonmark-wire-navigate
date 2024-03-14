@@ -3,7 +3,7 @@
 use Spatie\CommonMarkWireNavigate\ShouldWireNavigate;
 
 it('is enabled on links on the same domain or without a domain when no base URL is provided', function () {
-    $shouldWireNavigate = ShouldWireNavigate::make();
+    $shouldWireNavigate = new ShouldWireNavigate();
 
     expect($shouldWireNavigate('/'))->toBe(true);
     expect($shouldWireNavigate('/about'))->toBe(true);
@@ -13,7 +13,7 @@ it('is enabled on links on the same domain or without a domain when no base URL 
 });
 
 it('is enabled on links on the same domain or without a domain when a base URL is provided', function (string $domain) {
-    $shouldWireNavigate = ShouldWireNavigate::make($domain);
+    $shouldWireNavigate = new ShouldWireNavigate($domain);
 
     expect($shouldWireNavigate('/'))->toBe(true);
     expect($shouldWireNavigate('/about'))->toBe(true);
@@ -26,7 +26,7 @@ it('is enabled on links on the same domain or without a domain when a base URL i
 })->with(['https://example.app', 'example.app']);
 
 it('is enabled on links matching a path when an array of paths are provided', function () {
-    $shouldWireNavigate = ShouldWireNavigate::make('example.app', ['docs']);
+    $shouldWireNavigate = new ShouldWireNavigate('example.app', ['docs']);
 
     expect($shouldWireNavigate('/'))->toBe(false);
 

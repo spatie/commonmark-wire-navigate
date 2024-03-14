@@ -2,46 +2,51 @@
 
 namespace Spatie\CommonMarkWireNavigate;
 
+use Closure;
 use Spatie\Url\Url;
 
 class ShouldWireNavigate
 {
-    public static function make(
-        string $domain = '',
-        ?array $paths = null,
-    ): callable {
-        $baseUrl = $domain
-            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://'.$domain))
+    protected Url $baseUrl;
+
+    public function __construct(
+        protected string $domain = '',
+        protected array|null $paths = null,
+    )
+    {
+        $this->baseUrl = $domain
+            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://' . $domain))
             : Url::create();
+    }
 
-        return function (string $url) use ($baseUrl, $paths) {
-            $url = Url::fromString($url);
+    public function __invoke(string $url): bool
+    {
+        $url = Url::fromString($url);
 
-            // Ensure hosts match
-            if ($url->getHost()) {
-                if (strtolower($url->getHost()) !== strtolower($baseUrl->getHost())) {
-                    return false;
-                }
-            }
-
-            // Ensure base paths match
-            if (! str_starts_with(strtolower($url->getPath()), strtolower($baseUrl->getPath()))) {
+        // Ensure hosts match
+        if ($url->getHost()) {
+            if (strtolower($url->getHost()) !== strtolower($this->baseUrl->getHost())) {
                 return false;
             }
+        }
 
-            if (is_null($paths)) {
-                return true;
-            }
+        // Ensure base paths match
+        if (! str_starts_with(strtolower($url->getPath()), strtolower($this->baseUrl->getPath()))) {
+            return false;
+        }
 
-            if (is_array($paths)) {
-                foreach ($paths as $path) {
-                    if (str_starts_with(trim($url->getPath(), '/') . '/', trim($path, '/') . '/')) {
-                        return true;
-                    }
+        if (is_null($this->paths)) {
+            return true;
+        }
+
+        if (is_array($this->paths)) {
+            foreach ($this->paths as $path) {
+                if (str_starts_with(trim($url->getPath(), '/') . '/', trim($path, '/') . '/')) {
+                    return true;
                 }
             }
+        }
 
-            return false;
-        };
+        return false;
     }
 }

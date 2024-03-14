@@ -18,7 +18,7 @@ use Nette\Schema\Expect;
 
 class WireNavigateExtension implements ConfigurableExtensionInterface, ConfigurationAwareInterface, NodeRendererInterface
 {
-    protected Closure $shouldWireNavigate;
+    protected ShouldWireNavigate $shouldWireNavigate;
 
     protected string $attribute;
 
@@ -35,7 +35,7 @@ class WireNavigateExtension implements ConfigurableExtensionInterface, Configura
             throw new Exception('Unsupported node');
         }
 
-        $this->shouldWireNavigate ??= ShouldWireNavigate::make(
+        $this->shouldWireNavigate ??= new ShouldWireNavigate(
             domain: $this->configuration->get('wire_navigate/domain'),
             paths: $this->configuration->get('wire_navigate/paths'),
         );
