@@ -12,7 +12,7 @@ class ShouldWireNavigate
         Closure|array|null $resolver = null,
     ): callable {
         if ($baseUrl && ! preg_match('/^https?:\/\//', $baseUrl)) {
-            $baseUrl = 'https://' . $baseUrl;
+            $baseUrl = 'https://'.$baseUrl;
         }
 
         $baseUrl = Url::fromString($baseUrl);
