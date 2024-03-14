@@ -2,7 +2,6 @@
 
 namespace Spatie\CommonMarkWireNavigate;
 
-use Closure;
 use Exception;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;

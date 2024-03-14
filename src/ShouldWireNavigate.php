@@ -2,7 +2,6 @@
 
 namespace Spatie\CommonMarkWireNavigate;
 
-use Closure;
 use Spatie\Url\Url;
 
 class ShouldWireNavigate
@@ -11,11 +10,10 @@ class ShouldWireNavigate
 
     public function __construct(
         protected string $domain = '',
-        protected array|null $paths = null,
-    )
-    {
+        protected ?array $paths = null,
+    ) {
         $this->baseUrl = $domain
-            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://' . $domain))
+            ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://'.$domain))
             : Url::create();
     }
 
@@ -41,7 +39,7 @@ class ShouldWireNavigate
 
         if (is_array($this->paths)) {
             foreach ($this->paths as $path) {
-                if (str_starts_with(trim($url->getPath(), '/') . '/', trim($path, '/') . '/')) {
+                if (str_starts_with(trim($url->getPath(), '/').'/', trim($path, '/').'/')) {
                     return true;
                 }
             }
