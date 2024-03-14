@@ -20,9 +20,9 @@
         "spatie/url": "^2.4"
     },
     "require-dev": {
-        "pestphp/pest": "^2.15",
         "laravel/pint": "^1.0",
-        "spatie/ray": "^1.28"
+        "pestphp/pest": "^2.15",
+        "spatie/ray": "^1.41"
     },
     "autoload": {
         "psr-4": {

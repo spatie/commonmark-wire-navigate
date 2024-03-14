@@ -27,7 +27,7 @@ class WireNavigateExtension implements ConfigurationAwareInterface, ExtensionInt
         Closure|array|null $enabled = null,
         bool $hover = false,
     ) {
-        $this->shouldWireNavigate = ShouldWireNavigate::from($baseUrl, $enabled);
+        $this->shouldWireNavigate = ShouldWireNavigate::make($baseUrl, $enabled);
         $this->attribute = $hover ? 'wire:navigate.hover' : 'wire:navigate';
     }
 

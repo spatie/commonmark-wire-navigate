@@ -66,18 +66,21 @@ echo $converter->convert('[Twitter](https://twitter.com/spatie_be)');
 
 Additionally, you can configure whether the attribute will be added using an array of patterns or a callback.
 
-Using patterns:
+Using an array to specify a root path in your application:
 
 ```php
 $environment->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
-    enabled: ['/docs/*'],
+    enabled: ['docs', 'guide'],
 ));
 
 $converter = new MarkdownConverter($environment);
 
 echo $converter->convert('[Installation](/docs/installation)');
 // <p><a href="/docs/installation" wire:navigate>Installation</a>
+
+echo $converter->convert('[Guide](/guide)');
+// <p><a href="/guide" wire:navigate>Guide</a>
 
 echo $converter->convert('[About](/about)');
 // <p><a href="/about">About</a>

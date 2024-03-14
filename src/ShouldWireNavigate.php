@@ -7,9 +7,15 @@ use Spatie\Url\Url;
 
 class ShouldWireNavigate
 {
-    public static function from(?string $baseUrl, Closure|array|null $resolver): callable
-    {
-        $baseUrl = Url::fromString($baseUrl ?? '');
+    public static function make(
+        string $baseUrl = '',
+        Closure|array|null $resolver = null,
+    ): callable {
+        if ($baseUrl && ! preg_match('/^https?:\/\//', $baseUrl)) {
+            $baseUrl = 'https://' . $baseUrl;
+        }
+
+        $baseUrl = Url::fromString($baseUrl);
 
         return function (string $url) use ($baseUrl, $resolver) {
             $url = Url::fromString($url);
@@ -36,7 +42,9 @@ class ShouldWireNavigate
 
             if (is_array($resolver)) {
                 foreach ($resolver as $path) {
-                    // @todo
+                    if (str_starts_with(trim($url->getPath(), '/'), trim($path, '/'))) {
+                        return true;
+                    }
                 }
             }
 
