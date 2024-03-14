@@ -28,14 +28,11 @@ Register `CommonMarkWireNavigate` as a CommonMark extension.
 
 ```php
 use League\CommonMark\Environment\Environment;
-use League\CommonMark\MarkdownConverter;
+use League\CommonMark\CommonMarkConverter;
 use Spatie\CommonMarkWireNavigate\WireNavigateExtension;
 
-$environment = new Environment();
-
-$environment->addExtension(new WireNavigateExtension());
-
-$converter = new MarkdownConverter($environment);
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension());
 
 echo $converter->convert('[About](/about)');
 // <p><a href="/about" wire:navigate>About</a></p>
@@ -48,11 +45,11 @@ For more information on CommonMark extensions and environments, refer to the [Co
 By default, the extension will add `wire:navigate` to all internal links. To know which link is internal, you must specify your application's base URL.
 
 ```php
-$environment->addExtension(new WireNavigateExtension(
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
 ));
 
-$converter = new MarkdownConverter($environment);
 
 echo $converter->convert('[About](/about)');
 // <p><a href="/about" wire:navigate>About</a>
@@ -69,12 +66,11 @@ Additionally, you can configure whether the attribute will be added using an arr
 Using an array to specify a root path in your application:
 
 ```php
-$environment->addExtension(new WireNavigateExtension(
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
     enabled: ['docs', 'guide'],
 ));
-
-$converter = new MarkdownConverter($environment);
 
 echo $converter->convert('[Installation](/docs/installation)');
 // <p><a href="/docs/installation" wire:navigate>Installation</a>
@@ -89,7 +85,8 @@ echo $converter->convert('[About](/about)');
 Using a callback:
 
 ```php
-$environment->addExtension(new WireNavigateExtension(
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
     enabled: fn (string $url) => preg_match('/\/docs\//', $url),
     hover: true, 
@@ -101,7 +98,8 @@ $environment->addExtension(new WireNavigateExtension(
 If you want to have Livewire prefetch pages when a link is hovered, enable the `hover` option.
 
 ```php
-$environment->addExtension(new WireNavigateExtension(
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
     hover: true, 
 ));
