@@ -8,6 +8,7 @@ class ShouldWireNavigate
 {
     protected Url $baseUrl;
 
+    /** @param string[]|null $paths */
     public function __construct(
         protected string $domain = '',
         protected ?array $paths = null,
@@ -33,15 +34,13 @@ class ShouldWireNavigate
             return false;
         }
 
-        if (is_null($this->paths)) {
+        if ($this->paths === null) {
             return true;
         }
 
-        if (is_array($this->paths)) {
-            foreach ($this->paths as $path) {
-                if (str_starts_with(trim($url->getPath(), '/').'/', trim($path, '/').'/')) {
-                    return true;
-                }
+        foreach ($this->paths as $path) {
+            if (str_starts_with(trim($url->getPath(), '/').'/', trim($path, '/').'/')) {
+                return true;
             }
         }
 

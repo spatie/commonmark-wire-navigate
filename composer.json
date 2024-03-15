@@ -23,6 +23,7 @@
         "laravel/pint": "^1.0",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-type-coverage": "^2.8",
+        "phpstan/phpstan": "^1.10",
         "spatie/ray": "^1.41"
     },
     "autoload": {
@@ -38,7 +39,9 @@
     "scripts": {
         "test": "vendor/bin/pest",
             "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse",
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline"
     },
     "config": {
         "sort-packages": true,
