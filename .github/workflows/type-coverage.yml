@@ -1,0 +1,28 @@
+name: Type Coverage
+
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.github/workflows/type-coverage.yml'
+
+jobs:
+  pest:
+    name: Type Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Run Type Coverage
+        run: ./vendor/bin/pest --type-coverage --min=100

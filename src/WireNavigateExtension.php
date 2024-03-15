@@ -14,6 +14,7 @@ use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationBuilderInterface;
 use League\Config\ConfigurationInterface;
 use Nette\Schema\Expect;
+use Stringable;
 
 class WireNavigateExtension implements ConfigurableExtensionInterface, ConfigurationAwareInterface, NodeRendererInterface
 {
@@ -28,7 +29,7 @@ class WireNavigateExtension implements ConfigurableExtensionInterface, Configura
         $environment->addRenderer(Link::class, $this, 10);
     }
 
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
         if (! $node instanceof Link) {
             throw new Exception('Unsupported node');
