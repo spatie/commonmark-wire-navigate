@@ -3,6 +3,9 @@
     "description": "Add a wire:navigate attribute to links rendered in Markdown",
     "keywords": [
         "spatie",
+        "commmonmark",
+        "markdown",
+        "livewire",
         "commonmark-wire-navigate"
     ],
     "homepage": "https://github.com/spatie/commonmark-wire-navigate",
