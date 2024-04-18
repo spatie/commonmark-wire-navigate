@@ -40,6 +40,22 @@ echo $converter->convert('[About](/about)');
 
 For more information on CommonMark extensions and environments, refer to the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
 
+### Laravel-markdown
+
+When using the [Laravel-markdown](https://github.com/spatie/laravel-markdown/) package, you may register the extension in `config/markdown.php`:
+
+```php
+/*
+ * These extensions should be added to the markdown environment. A valid
+ * extension implements League\CommonMark\Extension\ExtensionInterface
+ *
+ * More info: https://commonmark.thephpleague.com/2.4/extensions/overview/
+ */
+'extensions' => [
+    Spatie\CommonMarkWireNavigate\WireNavigateExtension::class,
+],
+```
+
 ### Choosing which links to enhance
 
 By default, the extension will add `wire:navigate` to all internal links. To know which link is internal, you must specify your application's base URL.
