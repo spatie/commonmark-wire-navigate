@@ -21,12 +21,12 @@ class ShouldWireNavigate
 
     public function __invoke(string $url): bool
     {
-        $url = Url::fromString($url);
-
         // Ensure same page fragment match
-        if ($url->getPath() === '/' && !empty($url->getFragment())) {
+        if (str_starts_with($url, '#')) {
             return $this->fragment;
         }
+
+        $url = Url::fromString($url);
 
         // Ensure hosts match
         if ($url->getHost()) {
