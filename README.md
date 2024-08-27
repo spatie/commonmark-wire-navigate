@@ -58,7 +58,7 @@ When using the [Laravel-markdown](https://github.com/spatie/laravel-markdown/) p
 
 ### Choosing which links to enhance
 
-By default, the extension will add `wire:navigate` to all internal links. To know which link is internal, you must specify your application's base URL.
+By default, the extension will add `wire:navigate` to all internal links except fragments of the current page. To know which link is internal, you must specify your application's base URL.
 
 ```php
 $converter = new CommonMarkConverter($environment);
@@ -106,6 +106,15 @@ $converter->getEnvironment()->addExtension(new WireNavigateExtension(
     baseUrl: 'https://example.app',
     enabled: fn (string $url) => preg_match('/\/docs\//', $url),
     hover: true, 
+));
+```
+
+Enable on fragments of the current page:
+
+```php
+$converter = new CommonMarkConverter($environment);
+$converter->getEnvironment()->addExtension(new WireNavigateExtension(
+    fragment: true, 
 ));
 ```
 

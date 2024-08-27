@@ -38,6 +38,7 @@ class WireNavigateExtension implements ConfigurableExtensionInterface, Configura
         $this->shouldWireNavigate ??= new ShouldWireNavigate(
             domain: $this->configuration->get('wire_navigate/domain'),
             paths: $this->configuration->get('wire_navigate/paths'),
+            fragment: $this->configuration->get('wire_navigate/fragment'),
         );
 
         $this->attribute ??= $this->configuration->get('wire_navigate/hover')
@@ -70,6 +71,7 @@ class WireNavigateExtension implements ConfigurableExtensionInterface, Configura
             'domain' => Expect::string(''),
             'paths' => Expect::anyOf(Expect::null(), Expect::arrayOf(Expect::string()))->default(null),
             'hover' => Expect::bool(false),
+            'fragment' => Expect::bool(false),
         ]));
     }
 }

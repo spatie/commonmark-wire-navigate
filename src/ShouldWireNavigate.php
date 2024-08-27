@@ -12,6 +12,7 @@ class ShouldWireNavigate
     public function __construct(
         protected string $domain = '',
         protected ?array $paths = null,
+        protected bool $fragment = false,
     ) {
         $this->baseUrl = $domain
             ? Url::fromString(preg_match('/^https?:\/\//', $domain) ? $domain : ('https://'.$domain))
@@ -20,6 +21,11 @@ class ShouldWireNavigate
 
     public function __invoke(string $url): bool
     {
+        // Ensure same page fragment match
+        if (str_starts_with($url, '#')) {
+            return $this->fragment;
+        }
+
         $url = Url::fromString($url);
 
         // Ensure hosts match
