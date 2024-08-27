@@ -54,7 +54,7 @@ class WireNavigateExtension implements ConfigurableExtensionInterface, Configura
             );
         }
 
-        $renderer = new LinkRenderer();
+        $renderer = new LinkRenderer;
         $renderer->setConfiguration($this->configuration);
 
         return $renderer->render($node, $childRenderer);

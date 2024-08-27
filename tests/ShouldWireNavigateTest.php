@@ -3,7 +3,7 @@
 use Spatie\CommonMarkWireNavigate\ShouldWireNavigate;
 
 it('is enabled on links on the same domain or without a domain when no base URL is provided', function () {
-    $shouldWireNavigate = new ShouldWireNavigate();
+    $shouldWireNavigate = new ShouldWireNavigate;
 
     expect($shouldWireNavigate('/'))->toBe(true);
     expect($shouldWireNavigate('/about'))->toBe(true);
@@ -37,7 +37,7 @@ it('is enabled on links matching a path when an array of paths are provided', fu
 });
 
 it('is disabled on links on the same page when fragment is disabled (default)', function () {
-    $shouldWireNavigate = new ShouldWireNavigate();
+    $shouldWireNavigate = new ShouldWireNavigate;
 
     expect($shouldWireNavigate('#example'))->toBe(false);
 });
@@ -49,7 +49,7 @@ it('is enabled on links on the same page when fragment is enabled', function () 
 });
 
 it('is enabled on links on the same domain or without a domain when fragment is disabled (default) when no base URL is provided', function () {
-    $shouldWireNavigate = new ShouldWireNavigate();
+    $shouldWireNavigate = new ShouldWireNavigate;
 
     expect($shouldWireNavigate('/#example'))->toBe(true);
     expect($shouldWireNavigate('/about#example'))->toBe(true);
