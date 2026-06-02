@@ -1,7 +1,7 @@
 # Add a wire:navigate attribute to links rendered in Markdown
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/commonmark-wire-navigate.svg?style=flat-square)](https://packagist.org/packages/spatie/commonmark-wire-navigate)
-[![Tests](https://img.shields.io/github/actions/workflow/status/spatie/commonmark-wire-navigate/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/spatie/commonmark-wire-navigate/actions/workflows/run-tests.yml)
+[![Tests](https://github.com/spatie/commonmark-wire-navigate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/commonmark-wire-navigate/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/commonmark-wire-navigate.svg?style=flat-square)](https://packagist.org/packages/spatie/commonmark-wire-navigate)
 
 An extension for [league/commonmark](https://github.com/thephpleague/commonmark) to add a `wire:navigate` attribute to links rendered in Markdown and enable [SPA mode](https://livewire.laravel.com/docs/navigate) in Livewire.
