@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
       - '.github/workflows/type-coverage.yml'
 
 jobs:
@@ -18,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           coverage: none
 
       - name: Run composer install

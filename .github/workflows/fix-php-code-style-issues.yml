@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
+      - '.github/workflows/fix-php-code-style-issues.yml'
 
 permissions:
   contents: write
